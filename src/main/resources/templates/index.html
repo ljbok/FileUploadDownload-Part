@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>FileList & FileDownLoad</title>
+</head>
+<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+<body>
+    <div>
+        <h1>
+            파일 다운로드 리스트 페이지
+        </h1>
+    </div>
+    <div>
+        <ul>
+            <li th:each = "file: ${fileList}">
+                <span th:text="${file.name}"></span>
+                <button
+                        type="button"
+                        th:value="${file.id}"
+                        onclick="fileDownload(this.value)"
+                > 파일 다운로드
+                </button>
+            </li>
+        </ul>
+    </div>
+
+    <!--
+     미리 등록되어 있는 파일들은 service 에서 domain: "NOtice", domainId: "1"로 임의 지정되어 저장되어 있는 형태이며,
+     따라서 다운로드 url도 domain: "NOTICE", domainId: "1" 로 고정되어 있다.
+     실제로 사용할 때에는 게시글 종류에 맞는 식별자가 domain에 그 게시물 죵류에서 원하는 게시물의 pk가 domainId에 들어가면 된다.
+    -->
+    <script type="text/javascript">
+        function fileDownload(fileId) {
+            const url = "/api/file/download?domain=notice&domainId=1&fileId="+fileId;
+            window.location.href=url;
+        }
+    </script>
+
+</body>
+</html>
